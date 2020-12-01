@@ -6,6 +6,6 @@ This repository aims to keep track of my solutions for the [advent of code 2020]
 
   -
 
-## Output of running [AdventOfCode.java](https://github.com/amourany/advent-of-code-2020):
+## Output of running [AdventOfCode.java](src/main/java/fr/amou/advent/of/code/AdventOfCode.java):
 
 >

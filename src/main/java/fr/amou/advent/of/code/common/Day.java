@@ -6,5 +6,5 @@ public interface Day {
 
     void part1() throws IOException;
 
-    void part2();
+    void part2() throws IOException;
 }

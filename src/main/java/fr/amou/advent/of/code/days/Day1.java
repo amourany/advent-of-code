@@ -50,13 +50,13 @@ public class Day1 implements Day {
     public void part1() throws IOException {
         List<Integer> part1Input = DataReader.readDataAsIntegerForDay(1);
         int result = fixExpenseReport(part1Input, 2);
-        log.info("Part 1: {}", result);
+        log.info("  Part 1: {}", result);
     }
 
     @Override
     public void part2() throws IOException {
         List<Integer> part1Input = DataReader.readDataAsIntegerForDay(1);
         int result = fixExpenseReport(part1Input, 3);
-        log.info("Part 2: {}", result);
+        log.info("  Part 2: {}", result);
     }
 }

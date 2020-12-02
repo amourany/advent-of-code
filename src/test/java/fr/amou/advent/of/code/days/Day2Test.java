@@ -16,7 +16,7 @@ class Day2Test {
         String passwordPolicy = "1-3 a: abcde";
 
         // When
-        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy));
+        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy), Day2::checkPasswordPart1);
 
         // Then
         assertThat(validPasswords).isEqualTo(1);
@@ -29,7 +29,7 @@ class Day2Test {
         String passwordPolicy = "1-3 b: cdefg";
 
         // When
-        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy));
+        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy), Day2::checkPasswordPart1);
 
         // Then
         assertThat(validPasswords).isZero();
@@ -42,9 +42,48 @@ class Day2Test {
         String passwordPolicy = "2-9 c: ccccccccce";
 
         // When
-        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy));
+        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy), Day2::checkPasswordPart1);
 
         // Then
         assertThat(validPasswords).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("1-3 a: abcde should be valid")
+    void part2_exemple1() {
+        // Given
+        String passwordPolicy = "1-3 a: abcde";
+
+        // When
+        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy), Day2::checkPasswordPart2);
+
+        // Then
+        assertThat(validPasswords).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("1-3 b: cdefg should not be valid")
+    void part2_exemple2() {
+        // Given
+        String passwordPolicy = "1-3 b: cdefg";
+
+        // When
+        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy), Day2::checkPasswordPart2);
+
+        // Then
+        assertThat(validPasswords).isZero();
+    }
+
+    @Test
+    @DisplayName("2-9 c: ccccccccc should not be valid")
+    void part2_exemple3() {
+        // Given
+        String passwordPolicy = "2-9 c: ccccccccc";
+
+        // When
+        long validPasswords = Day2.countValidPasswords(List.of(passwordPolicy), Day2::checkPasswordPart2);
+
+        // Then
+        assertThat(validPasswords).isZero();
     }
 }

@@ -1,4 +1,4 @@
-package fr.amou.advent.of.code.days;
+package fr.amou.advent.of.code.year2020.days;
 
 import fr.amou.advent.of.code.common.Coordinate;
 import org.junit.jupiter.api.DisplayName;

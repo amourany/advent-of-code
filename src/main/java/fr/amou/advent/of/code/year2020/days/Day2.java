@@ -1,6 +1,6 @@
-package fr.amou.advent.of.code.days;
+package fr.amou.advent.of.code.year2020.days;
 
-import fr.amou.advent.of.code.common.Day;
+import fr.amou.advent.of.code.year2020.Day2020;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,15 +10,15 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static fr.amou.advent.of.code.utils.DataReader.readDataAsListForDay;
-
 @Log4j2
-public class Day2 implements Day {
+public class Day2 extends Day2020 {
+
+    public Day2() {
+        super(2);
+    }
 
     public static void main(String[] args) throws IOException {
-        Day day = new Day2();
-        day.part1();
-        day.part2();
+        new Day2().printParts();
     }
 
     public static long countValidPasswords(List<String> passwords, Function<PasswordPolicy, Boolean> passwordVerifier) {
@@ -49,17 +49,15 @@ public class Day2 implements Day {
     }
 
     @Override
-    public void part1() throws IOException {
-        List<String> passwordPolicies = readDataAsListForDay(2);
-        long validPasswords = countValidPasswords(passwordPolicies, Day2::checkPasswordPart1);
-        log.info("  Part 1: {}", validPasswords);
+    public Object part1() throws IOException {
+        List<String> passwordPolicies = readDataAsList();
+        return countValidPasswords(passwordPolicies, Day2::checkPasswordPart1);
     }
 
     @Override
-    public void part2() throws IOException {
-        List<String> passwordPolicies = readDataAsListForDay(2);
-        long validPasswords = countValidPasswords(passwordPolicies, Day2::checkPasswordPart2);
-        log.info("  Part 2: {}", validPasswords);
+    public Object part2() throws IOException {
+        List<String> passwordPolicies = readDataAsList();
+        return countValidPasswords(passwordPolicies, Day2::checkPasswordPart2);
     }
 
     @Getter

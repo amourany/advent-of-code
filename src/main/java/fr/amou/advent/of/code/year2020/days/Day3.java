@@ -1,7 +1,7 @@
-package fr.amou.advent.of.code.days;
+package fr.amou.advent.of.code.year2020.days;
 
 import fr.amou.advent.of.code.common.Coordinate;
-import fr.amou.advent.of.code.common.Day;
+import fr.amou.advent.of.code.year2020.Day2020;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -11,17 +11,17 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static fr.amou.advent.of.code.utils.DataReader.readDataAsListForDay;
-
 @Log4j2
-public class Day3 implements Day {
+public class Day3 extends Day2020 {
 
     private static final String TREE_SYMBOL = "#";
 
+    public Day3() {
+        super(3);
+    }
+
     public static void main(String[] args) throws IOException {
-        Day day = new Day3();
-        day.part1();
-        day.part2();
+        new Day3().printParts();
     }
 
     private static Map<Coordinate, String> buildMap(List<String> mapLines) {
@@ -79,19 +79,17 @@ public class Day3 implements Day {
     }
 
     @Override
-    public void part1() throws IOException {
-        List<String> mapLines = readDataAsListForDay(3);
+    public Object part1() throws IOException {
+        List<String> mapLines = readDataAsList();
         List<Coordinate> pathsToFollow = List.of(new Coordinate(3, 1));
-        long countedTrees = followSlope(mapLines, pathsToFollow);
-        log.info("  Part 1: {}", countedTrees);
+        return followSlope(mapLines, pathsToFollow);
     }
 
     @Override
-    public void part2() throws IOException {
-        List<String> mapLines = readDataAsListForDay(3);
+    public Object part2() throws IOException {
+        List<String> mapLines = readDataAsList();
         List<Coordinate> pathsToFollow = List.of(new Coordinate(1, 1), new Coordinate(3, 1), new Coordinate(5, 1),
                 new Coordinate(7, 1), new Coordinate(1, 2));
-        long result = followSlope(mapLines, pathsToFollow);
-        log.info("  Part 2: {}", result);
+        return followSlope(mapLines, pathsToFollow);
     }
 }

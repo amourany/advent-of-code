@@ -1,7 +1,6 @@
-package fr.amou.advent.of.code.days;
+package fr.amou.advent.of.code.year2020.days;
 
-import fr.amou.advent.of.code.common.Day;
-import fr.amou.advent.of.code.utils.DataReader;
+import fr.amou.advent.of.code.year2020.Day2020;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -11,12 +10,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Log4j2
-public class Day1 implements Day {
+public class Day1 extends Day2020 {
+
+    public Day1() {
+        super(1);
+    }
 
     public static void main(String[] args) throws IOException {
-        Day day = new Day1();
-        day.part1();
-        day.part2();
+        new Day1().printParts();
     }
 
     public static int fixExpenseReport(List<Integer> expenseReport, int digitsToFind) {
@@ -47,16 +48,14 @@ public class Day1 implements Day {
     }
 
     @Override
-    public void part1() throws IOException {
-        List<Integer> part1Input = DataReader.readDataAsIntegerForDay(1);
-        int result = fixExpenseReport(part1Input, 2);
-        log.info("  Part 1: {}", result);
+    public Object part1() throws IOException {
+        List<Integer> part1Input = readDataAsInteger();
+        return fixExpenseReport(part1Input, 2);
     }
 
     @Override
-    public void part2() throws IOException {
-        List<Integer> part1Input = DataReader.readDataAsIntegerForDay(1);
-        int result = fixExpenseReport(part1Input, 3);
-        log.info("  Part 2: {}", result);
+    public Object part2() throws IOException {
+        List<Integer> part1Input = readDataAsInteger();
+        return fixExpenseReport(part1Input, 3);
     }
 }

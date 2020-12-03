@@ -92,7 +92,6 @@ public class Day2 extends Day2019 {
                 answer = dataProcessed.get(0);
 
                 if (answer.equals(goal)) {
-                    log.info("Goal reached - noun : {}, verb : {}, solution : {}", noun, verb, 100 * noun + verb);
                     finalAnswer = 100 * noun + verb;
                 }
             }

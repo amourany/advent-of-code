@@ -1,4 +1,6 @@
-# Advent of code 2019
+# Advent of Code 2019
+
+[2019 edition of Advent of Code](https://adventofcode.com/2019)
 
 ## Days :
 
@@ -32,6 +34,10 @@ Day 4:
 Day 5:
   Part 1 : 13547311
   Part 2 : 13547311
+
+Day 6:
+  Part 1 : null
+  Part 2 : null
 
 Day 7:
   Part 1 : 117312

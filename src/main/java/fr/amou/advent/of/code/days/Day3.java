@@ -1,5 +1,6 @@
 package fr.amou.advent.of.code.days;
 
+import fr.amou.advent.of.code.common.Coordinate;
 import fr.amou.advent.of.code.common.Day;
 import lombok.extern.log4j.Log4j2;
 
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,6 +21,7 @@ public class Day3 implements Day {
     public static void main(String[] args) throws IOException {
         Day day = new Day3();
         day.part1();
+        day.part2();
     }
 
     private static Map<Coordinate, String> buildMap(List<String> mapLines) {
@@ -39,7 +40,7 @@ public class Day3 implements Day {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
-    private static Integer countTrees(Map<Coordinate, String> regionMap) {
+    private static Long countTrees(Map<Coordinate, String> regionMap, Coordinate pathToFollow) {
 
         int regionWidth = regionMap.keySet()
                 .stream()
@@ -52,12 +53,12 @@ public class Day3 implements Day {
 
         int currentXPos = 0;
         int currentYPos = 0;
-        int foundTrees = 0;
+        Long foundTrees = 0L;
 
         while (currentYPos < regionHeight) {
 
-            currentXPos = (currentXPos + 3) % (regionWidth + 1);
-            currentYPos = (currentYPos + 1);
+            currentXPos = (currentXPos + pathToFollow.x) % (regionWidth + 1);
+            currentYPos = (currentYPos + pathToFollow.y);
 
             Coordinate newCoordinate = new Coordinate(currentXPos, currentYPos);
             if (regionMap.containsKey(newCoordinate) && regionMap.get(newCoordinate)
@@ -69,44 +70,28 @@ public class Day3 implements Day {
         return foundTrees;
     }
 
-    public static Integer followSlopeCountingTree(List<String> mapLines) {
+    public static Long followSlope(List<String> mapLines, List<Coordinate> pathsToFollow) {
         Map<Coordinate, String> regionMap = buildMap(mapLines);
-        return countTrees(regionMap);
+
+        return pathsToFollow.stream()
+                .map(path -> countTrees(regionMap, path))
+                .reduce(1L, Math::multiplyExact);
     }
 
     @Override
     public void part1() throws IOException {
         List<String> mapLines = readDataAsListForDay(3);
-        long countedTrees = followSlopeCountingTree(mapLines);
+        List<Coordinate> pathsToFollow = List.of(new Coordinate(3, 1));
+        long countedTrees = followSlope(mapLines, pathsToFollow);
         log.info("  Part 1: {}", countedTrees);
     }
 
     @Override
     public void part2() throws IOException {
-
-    }
-
-    public static class Coordinate {
-
-        public int x;
-        public int y;
-
-        public Coordinate(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Coordinate that = (Coordinate) o;
-            return x == that.x && y == that.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
+        List<String> mapLines = readDataAsListForDay(3);
+        List<Coordinate> pathsToFollow = List.of(new Coordinate(1, 1), new Coordinate(3, 1), new Coordinate(5, 1),
+                new Coordinate(7, 1), new Coordinate(1, 2));
+        long result = followSlope(mapLines, pathsToFollow);
+        log.info("  Part 2: {}", result);
     }
 }

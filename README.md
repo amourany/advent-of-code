@@ -4,4 +4,5 @@ This repository aims to keep track of my solutions for the [advent of code](http
 
 ## Years :
 
+  - [2019](/src/main/java/fr/amou/advent/of/code/year2019)
   - [2020](/src/main/java/fr/amou/advent/of/code/year2020)

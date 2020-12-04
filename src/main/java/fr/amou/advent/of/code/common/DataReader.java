@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class DataReader {
 
-    private static final String DEFAULT_DELIMITER = System.lineSeparator();
+    public static final String DEFAULT_DELIMITER = System.lineSeparator();
 
     private DataReader() {
     }

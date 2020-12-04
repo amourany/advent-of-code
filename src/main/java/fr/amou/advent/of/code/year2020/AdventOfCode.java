@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 @Log4j2
 public class AdventOfCode {
     public static void main(String[] args) {
-        IntStream.rangeClosed(1, 3)
+        IntStream.rangeClosed(1, 4)
                 .boxed()
                 .forEach(day -> {
                     log.info("Day {}:", day);

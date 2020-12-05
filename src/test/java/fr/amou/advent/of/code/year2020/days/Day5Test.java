@@ -14,7 +14,7 @@ class Day5Test {
         String partitioner = "BFFFBBFRRR";
 
         // When
-        Integer seatId = Day5.computeSeatId(partitioner);
+        Integer seatId = Day5.parseSeatId(partitioner);
 
         // Then
         assertThat(seatId).isEqualTo(567);
@@ -27,7 +27,7 @@ class Day5Test {
         String partitioner = "FFFBBBFRRR";
 
         // When
-        Integer seatId = Day5.computeSeatId(partitioner);
+        Integer seatId = Day5.parseSeatId(partitioner);
 
         // Then
         assertThat(seatId).isEqualTo(119);
@@ -40,7 +40,7 @@ class Day5Test {
         String partitioner = "BBFFBBFRLL";
 
         // When
-        Integer seatId = Day5.computeSeatId(partitioner);
+        Integer seatId = Day5.parseSeatId(partitioner);
 
         // Then
         assertThat(seatId).isEqualTo(820);

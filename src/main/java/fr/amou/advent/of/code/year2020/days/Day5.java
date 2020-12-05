@@ -25,18 +25,22 @@ public class Day5 extends Day2020 {
         new Day5().printParts();
     }
 
-    public static Integer computeSeatId(String seatPartitioning) {
-        List<Integer> seatRows = IntStream.range(0, 128)
+    public static Integer parseSeatId(String seatPartitioning) {
+        List<Integer> seatRows = IntStream.rangeClosed(0, 127)
                 .boxed()
                 .collect(Collectors.toList());
         Integer seatRow = findSeat(seatPartitioning.substring(0, 7), seatRows);
 
-        List<Integer> seatNumbers = IntStream.range(0, 8)
+        List<Integer> seatNumbers = IntStream.rangeClosed(0, 7)
                 .boxed()
                 .collect(Collectors.toList());
         Integer seatNumber = findSeat(seatPartitioning.substring(7, 10), seatNumbers);
 
-        return seatRow * 8 + seatNumber;
+        return computeSeatId(seatRow, seatNumber);
+    }
+
+    private static Integer computeSeatId(Integer row, Integer seat) {
+        return row * 8 + seat;
     }
 
     private static Integer findSeat(String seatPartitioning, List<Integer> possibleSeats) {
@@ -51,17 +55,38 @@ public class Day5 extends Day2020 {
                 .get(0);
     }
 
+    private static List<Integer> buildAllSeatsIds() {
+        return IntStream.range(1, 127)
+                .boxed()
+                .map(row -> IntStream.rangeClosed(0, 7)
+                        .boxed()
+                        .map(seat -> computeSeatId(row, seat))
+                        .collect(Collectors.toList()))
+                .flatMap(List::stream)
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
     @Override
     public Object part1() throws IOException {
         List<String> partitioners = readDataAsList();
         return partitioners.stream()
-                .map(Day5::computeSeatId)
+                .map(Day5::parseSeatId)
                 .reduce(0, Math::max);
     }
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        List<Integer> allSeats = buildAllSeatsIds();
+
+        List<String> partitioners = readDataAsList();
+        List<Integer> occupiedSeats = partitioners.stream()
+                .map(Day5::parseSeatId)
+                .collect(Collectors.toList());
+
+        allSeats.removeAll(occupiedSeats);
+
+        return allSeats.get(0);
     }
 
     enum SeatPartitioner {

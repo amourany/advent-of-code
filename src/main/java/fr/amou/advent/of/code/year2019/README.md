@@ -36,8 +36,8 @@ Day 5:
   Part 2 : 13547311
 
 Day 6:
-  Part 1 : null
-  Part 2 : null
+  Part 1 : 140608
+  Part 2 : 337
 
 Day 7:
   Part 1 : 117312

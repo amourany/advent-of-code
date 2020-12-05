@@ -40,4 +40,15 @@ class Day6Test {
         // Then
         assertThat(orbits).isEqualTo(6);
     }
+
+    @Test
+    void part2_example1() {
+        // Given
+        List<String> mapEntries = List.of("C)D", "J)K", "E)J", "D)E", "D)I", "K)YOU", "I)SAN");
+        // When
+        Integer orbits = Day6.countJumps(mapEntries);
+
+        // Then
+        assertThat(orbits).isEqualTo(4);
+    }
 }

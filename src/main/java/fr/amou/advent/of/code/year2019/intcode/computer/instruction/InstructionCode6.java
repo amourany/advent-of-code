@@ -1,7 +1,7 @@
 package fr.amou.advent.of.code.year2019.intcode.computer.instruction;
 
+import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeComputer;
 import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction;
-import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeProgram;
 
 import java.util.function.Consumer;
 
@@ -12,14 +12,13 @@ public class InstructionCode6 extends AbstractInstructionCode {
     }
 
     @Override
-    public Consumer<IntCodeProgram> execute() {
+    public Consumer<IntCodeComputer> execute() {
         return intCodeProgram -> {
-            Integer firstParameter = getFirstParameter().apply(intCodeProgram);
+            Double firstParameter = getFirstParameter().apply(intCodeProgram);
+            Double secondParameter = getSecondParameter().apply(intCodeProgram);
 
-            Integer secondParameter = getSecondParameter().apply(intCodeProgram);
-
-            if (firstParameter.compareTo(0) == 0) {
-                intCodeProgram.moveCursorToIndex(secondParameter);
+            if (firstParameter.compareTo(0d) == 0) {
+                intCodeProgram.moveCursorToIndex(secondParameter.intValue());
             } else {
                 intCodeProgram.moveCursor(3);
             }

@@ -2,7 +2,6 @@ package fr.amou.advent.of.code.year2019.days;
 
 import fr.amou.advent.of.code.year2019.Day2019;
 import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeComputer;
-import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeProgram;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -23,29 +22,25 @@ public class Day7 extends Day2019 {
         new Day7().printParts();
     }
 
-    public static Integer computeMaxThrusterSignal(List<Integer> dataIntegerList) {
+    public static Double computeMaxThrusterSignal(List<Double> programInstructions) {
         return generatePermutations(List.of(0, 1, 2, 3, 4), 5).map(
-                phaseSettings -> chainedComputers(dataIntegerList, phaseSettings.toArray(new Integer[5])))
-                .reduce(0, Math::max);
+                phaseSettings -> chainedComputers(programInstructions, phaseSettings.toArray(new Integer[5])))
+                .reduce(0d, Math::max);
     }
 
-    private static Integer chainedComputers(List<Integer> dataIntegerList, Integer[] phaseSettings) {
+    private static Double chainedComputers(List<Double> programInstructions, Integer[] phaseSettings) {
         IntCodeComputer computer = new IntCodeComputer();
 
-        IntCodeProgram intCodeProgram = new IntCodeProgram(dataIntegerList, List.of(phaseSettings[0], 0));
-        int nextInputValue = computer.runIntCodeProgram(intCodeProgram);
-
-        intCodeProgram = new IntCodeProgram(dataIntegerList, List.of(phaseSettings[1], nextInputValue));
-        nextInputValue = computer.runIntCodeProgram(intCodeProgram);
-
-        intCodeProgram = new IntCodeProgram(dataIntegerList, List.of(phaseSettings[2], nextInputValue));
-        nextInputValue = computer.runIntCodeProgram(intCodeProgram);
-
-        intCodeProgram = new IntCodeProgram(dataIntegerList, List.of(phaseSettings[3], nextInputValue));
-        nextInputValue = computer.runIntCodeProgram(intCodeProgram);
-
-        intCodeProgram = new IntCodeProgram(dataIntegerList, List.of(phaseSettings[4], nextInputValue));
-        return computer.runIntCodeProgram(intCodeProgram);
+        Double nextInputValue = computer.run(programInstructions, List.of(phaseSettings[0].doubleValue(), 0d))
+                .get(0);
+        nextInputValue = computer.run(programInstructions, List.of(phaseSettings[1].doubleValue(), nextInputValue))
+                .get(0);
+        nextInputValue = computer.run(programInstructions, List.of(phaseSettings[2].doubleValue(), nextInputValue))
+                .get(0);
+        nextInputValue = computer.run(programInstructions, List.of(phaseSettings[3].doubleValue(), nextInputValue))
+                .get(0);
+        return computer.run(programInstructions, List.of(phaseSettings[4].doubleValue(), nextInputValue))
+                .get(0);
     }
 
     private static Stream<List<Integer>> generatePermutations(List<Integer> availablePhaseNumbers,
@@ -70,10 +65,10 @@ public class Day7 extends Day2019 {
     @Override
     public Object part1() throws IOException {
         List<String> dataStringList = readDataAsList();
-        List<Integer> dataIntegerList = dataStringList.stream()
+        List<Double> dataIntegerList = dataStringList.stream()
                 .map(s -> s.split(","))
                 .flatMap(Arrays::stream)
-                .map(Integer::parseInt)
+                .map(Double::valueOf)
                 .collect(Collectors.toList());
 
         return computeMaxThrusterSignal(dataIntegerList);

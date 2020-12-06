@@ -1,10 +1,12 @@
 package fr.amou.advent.of.code.year2019.intcode.computer.instruction;
 
+import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeComputer;
 import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction;
-import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeProgram;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import static fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction.INSTRUCTION_PARAM_3_MODE;
 
 public class InstructionCode8 extends AbstractInstructionCode {
 
@@ -13,20 +15,21 @@ public class InstructionCode8 extends AbstractInstructionCode {
     }
 
     @Override
-    public Consumer<IntCodeProgram> execute() {
+    public Consumer<IntCodeComputer> execute() {
         return intCodeProgram -> {
-            Integer firstParameter = getFirstParameter().apply(intCodeProgram);
-            Integer secondParameter = getSecondParameter().apply(intCodeProgram);
-            Integer storeLocation = getStoreLocation().apply(intCodeProgram);
+            Double firstParameter = getFirstParameter().apply(intCodeProgram);
+            Double secondParameter = getSecondParameter().apply(intCodeProgram);
+            Double storeLocation = getStoreLocation().apply(intCodeProgram);
 
             int codeExecutionResult = firstParameter.equals(secondParameter) ? 1 : 0;
 
-            intCodeProgram.store(storeLocation, codeExecutionResult);
+            intCodeProgram.store(storeLocation.intValue(), (double) codeExecutionResult);
             intCodeProgram.moveCursor(4);
         };
     }
 
-    private Function<IntCodeProgram, Integer> getStoreLocation() {
-        return intCodeProgram -> intCodeProgram.get(intCodeProgram.getThirdParameterIndex());
+    protected Function<IntCodeComputer, Double> getStoreLocation() {
+        return intCodeComputer -> instructionAndOptions.getStoreLocation(INSTRUCTION_PARAM_3_MODE)
+                .apply(intCodeComputer, intCodeComputer.getThirdParameterIndex());
     }
 }

@@ -1,5 +1,7 @@
 package fr.amou.advent.of.code.year2019.intcode.computer;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.BiFunction;
@@ -15,11 +17,22 @@ public class IntCodeInstruction {
 
     public static final int POSITION_MODE = 0;
     public static final int IMMEDIATE_MODE = 1;
+    public static final int RELATIVE_MODE = 2;
 
-    private static final BiFunction<IntCodeProgram, Integer, Integer> POSITION_MODE_FUNCTION = (intCodeProgram, index) -> (intCodeProgram.get(
-            intCodeProgram.get(index)));
-    private static final BiFunction<IntCodeProgram, Integer, Integer> IMMEDIATE_MODE_FUNCTION = IntCodeProgram::get;
+    private static final BiFunction<IntCodeComputer, Integer, Double> POSITION_MODE_FUNCTION = (intCodeComputer, index) -> intCodeComputer.getMemoryValueAt(
+            intCodeComputer.getMemoryValueAt(index)
+                    .intValue());
+    private static final BiFunction<IntCodeComputer, Integer, Double> IMMEDIATE_MODE_FUNCTION = IntCodeComputer::getMemoryValueAt;
+    private static final BiFunction<IntCodeComputer, Integer, Double> RELATIVE_MODE_FUNCTION = (intCodeComputer, index) -> intCodeComputer.getMemoryValueAt(
+            intCodeComputer.getRelativeBase()
+                    .intValue() + intCodeComputer.getMemoryValueAt(index)
+                    .intValue());
 
+    private static final BiFunction<IntCodeComputer, Integer, Double> POSITION_MODE_STORAGE_FUNCTION = IntCodeComputer::getMemoryValueAt;
+    private static final BiFunction<IntCodeComputer, Integer, Double> RELATIVE_MODE_STORAGE_FUNCTION = (intCodeComputer, index) -> intCodeComputer.getRelativeBase() + intCodeComputer.getMemoryValueAt(
+            index);
+
+    @Getter
     private final Integer[] instructionOptions;
 
     public IntCodeInstruction(Integer rawInstruction) {
@@ -49,7 +62,27 @@ public class IntCodeInstruction {
                 instructionOptions[INSTRUCTION_PART_1].toString() + instructionOptions[INSTRUCTION_PART_2].toString());
     }
 
-    public BiFunction<IntCodeProgram, Integer, Integer> getParameterResolverFunction(int paramNumber) {
-        return instructionOptions[paramNumber] == POSITION_MODE ? POSITION_MODE_FUNCTION : IMMEDIATE_MODE_FUNCTION;
+    public BiFunction<IntCodeComputer, Integer, Double> getParameterResolverFunction(int paramNumber) {
+        switch (instructionOptions[paramNumber]) {
+            case POSITION_MODE:
+                return POSITION_MODE_FUNCTION;
+            case IMMEDIATE_MODE:
+                return IMMEDIATE_MODE_FUNCTION;
+            case RELATIVE_MODE:
+                return RELATIVE_MODE_FUNCTION;
+            default:
+                return (intCodeProgram, integer) -> -1d;
+        }
+    }
+
+    public BiFunction<IntCodeComputer, Integer, Double> getStoreLocation(int paramNumber) {
+        switch (instructionOptions[paramNumber]) {
+            case POSITION_MODE:
+                return POSITION_MODE_STORAGE_FUNCTION;
+            case RELATIVE_MODE:
+                return RELATIVE_MODE_STORAGE_FUNCTION;
+            default:
+                return (intCodeProgram, integer) -> -1d;
+        }
     }
 }

@@ -27,6 +27,8 @@ public class InstructionCodeResolver {
             return new InstructionCode7(instructionAndOptions);
         } else if (code == 8) {
             return new InstructionCode8(instructionAndOptions);
+        } else if (code == 9) {
+            return new InstructionCode9(instructionAndOptions);
         } else if (code == 99) {
             return new InstructionCode99(instructionAndOptions);
         }

@@ -1,10 +1,12 @@
 package fr.amou.advent.of.code.year2019.intcode.computer.instruction;
 
+import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeComputer;
 import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction;
-import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeProgram;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import static fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction.INSTRUCTION_PARAM_3_MODE;
 
 public class InstructionCode1 extends AbstractInstructionCode {
 
@@ -13,19 +15,19 @@ public class InstructionCode1 extends AbstractInstructionCode {
     }
 
     @Override
-    public Consumer<IntCodeProgram> execute() {
-        return intCodeProgram -> {
+    public Consumer<IntCodeComputer> execute() {
+        return intCodeComputer -> {
+            Double firstParameter = getFirstParameter().apply(intCodeComputer);
+            Double secondParameter = getSecondParameter().apply(intCodeComputer);
+            Double storeLocation = getStoreLocation().apply(intCodeComputer);
 
-            Integer firstParameter = getFirstParameter().apply(intCodeProgram);
-            Integer secondParameter = getSecondParameter().apply(intCodeProgram);
-            Integer storeLocation = getStoreLocation().apply(intCodeProgram);
-
-            intCodeProgram.store(storeLocation, firstParameter + secondParameter);
-            intCodeProgram.moveCursor(4);
+            intCodeComputer.store(storeLocation.intValue(), firstParameter + secondParameter);
+            intCodeComputer.moveCursor(4);
         };
     }
 
-    private Function<IntCodeProgram, Integer> getStoreLocation() {
-        return intCodeProgram -> intCodeProgram.get(intCodeProgram.getThirdParameterIndex());
+    protected Function<IntCodeComputer, Double> getStoreLocation() {
+        return intCodeComputer -> instructionAndOptions.getStoreLocation(INSTRUCTION_PARAM_3_MODE)
+                .apply(intCodeComputer, intCodeComputer.getThirdParameterIndex());
     }
 }

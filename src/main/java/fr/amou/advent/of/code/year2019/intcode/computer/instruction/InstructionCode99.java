@@ -1,7 +1,7 @@
 package fr.amou.advent.of.code.year2019.intcode.computer.instruction;
 
+import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeComputer;
 import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction;
-import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeProgram;
 
 import java.util.function.Consumer;
 
@@ -14,7 +14,7 @@ public class InstructionCode99 extends AbstractInstructionCode {
     }
 
     @Override
-    public Consumer<IntCodeProgram> execute() {
-        return intCodeProgram -> intCodeProgram.setProgramStatus(COMPLETED);
+    public Consumer<IntCodeComputer> execute() {
+        return intCodeComputer -> intCodeComputer.setProgramStatus(COMPLETED);
     }
 }

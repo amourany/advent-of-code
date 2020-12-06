@@ -5,9 +5,9 @@ import fr.amou.advent.of.code.year2019.intcode.computer.IntCodeInstruction;
 
 import java.util.function.Consumer;
 
-public class InstructionCode4 extends AbstractInstructionCode {
+public class InstructionCode9 extends AbstractInstructionCode {
 
-    public InstructionCode4(IntCodeInstruction instructionAndOptions) {
+    public InstructionCode9(IntCodeInstruction instructionAndOptions) {
         super(instructionAndOptions);
     }
 
@@ -16,7 +16,7 @@ public class InstructionCode4 extends AbstractInstructionCode {
         return intCodeComputer -> {
             Double firstParameter = getFirstParameter().apply(intCodeComputer);
 
-            intCodeComputer.addOutputValue(firstParameter);
+            intCodeComputer.addToRelativeBase(firstParameter.intValue());
             intCodeComputer.moveCursor(2);
         };
     }

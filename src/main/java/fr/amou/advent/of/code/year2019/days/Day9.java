@@ -35,6 +35,16 @@ public class Day9 extends Day2019 {
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        List<String> dataStringList = readDataAsList();
+        List<Double> dataIntegerList = dataStringList.stream()
+                .map(s -> s.split(","))
+                .flatMap(Arrays::stream)
+                .map(Double::valueOf)
+                .collect(Collectors.toList());
+
+        IntCodeComputer computer = new IntCodeComputer();
+        Double output = computer.run(dataIntegerList, List.of(2d))
+                .get(0);
+        return String.format("%.0f", output);
     }
 }

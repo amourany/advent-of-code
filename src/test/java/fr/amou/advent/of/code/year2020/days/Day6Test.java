@@ -14,7 +14,7 @@ class Day6Test {
         List<String> groupAnswer = List.of("abc");
 
         // When
-        Integer result = Day6.countYesAnswerInGroup(groupAnswer);
+        Integer result = Day6.countYesAnswerForAnyoneInGroup(groupAnswer);
 
         // Then
         assertThat(result).isEqualTo(3);
@@ -26,7 +26,7 @@ class Day6Test {
         List<String> groupAnswer = List.of("a", "b", "c");
 
         // When
-        Integer result = Day6.countYesAnswerInGroup(groupAnswer);
+        Integer result = Day6.countYesAnswerForAnyoneInGroup(groupAnswer);
 
         // Then
         assertThat(result).isEqualTo(3);
@@ -38,7 +38,7 @@ class Day6Test {
         List<String> groupAnswer = List.of("ab", "ac");
 
         // When
-        Integer result = Day6.countYesAnswerInGroup(groupAnswer);
+        Integer result = Day6.countYesAnswerForAnyoneInGroup(groupAnswer);
 
         // Then
         assertThat(result).isEqualTo(3);
@@ -50,7 +50,7 @@ class Day6Test {
         List<String> groupAnswer = List.of("a", "a", "a", "a");
 
         // When
-        Integer result = Day6.countYesAnswerInGroup(groupAnswer);
+        Integer result = Day6.countYesAnswerForAnyoneInGroup(groupAnswer);
 
         // Then
         assertThat(result).isEqualTo(1);
@@ -62,7 +62,67 @@ class Day6Test {
         List<String> groupAnswer = List.of("b");
 
         // When
-        Integer result = Day6.countYesAnswerInGroup(groupAnswer);
+        Integer result = Day6.countYesAnswerForAnyoneInGroup(groupAnswer);
+
+        // Then
+        assertThat(result).isEqualTo(1);
+    }
+
+    @Test
+    void part2_example1() {
+        // Given
+        List<String> groupAnswer = List.of("abc");
+
+        // When
+        Long result = Day6.countYesAnswerForEveryoneInGroup(groupAnswer);
+
+        // Then
+        assertThat(result).isEqualTo(3);
+    }
+
+    @Test
+    void part2_example2() {
+        // Given
+        List<String> groupAnswer = List.of("a", "b", "c");
+
+        // When
+        Long result = Day6.countYesAnswerForEveryoneInGroup(groupAnswer);
+
+        // Then
+        assertThat(result).isZero();
+    }
+
+    @Test
+    void part2_example3() {
+        // Given
+        List<String> groupAnswer = List.of("ab", "ac");
+
+        // When
+        Long result = Day6.countYesAnswerForEveryoneInGroup(groupAnswer);
+
+        // Then
+        assertThat(result).isEqualTo(1);
+    }
+
+    @Test
+    void part2_example4() {
+        // Given
+        List<String> groupAnswer = List.of("a", "a", "a", "a");
+
+        // When
+        Long result = Day6.countYesAnswerForEveryoneInGroup(groupAnswer);
+
+        // Then
+        assertThat(result).isEqualTo(1);
+    }
+
+    @Test
+    void part2_example5() {
+        // Given
+        List<String> groupAnswer = List.of("b");
+
+        // When
+        Long result = Day6.countYesAnswerForEveryoneInGroup(groupAnswer);
 
         // Then
         assertThat(result).isEqualTo(1);

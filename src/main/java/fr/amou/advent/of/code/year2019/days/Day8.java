@@ -3,9 +3,14 @@ package fr.amou.advent.of.code.year2019.days;
 import fr.amou.advent.of.code.year2019.Day2019;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public class Day8 extends Day2019 {
 
@@ -24,7 +29,7 @@ public class Day8 extends Day2019 {
                 .collect(Collectors.toList());
     }
 
-    public static String findLayerWithFewest0Digit(List<String> imageLayers) {
+    private static String findLayerWithFewest0Digit(List<String> imageLayers) {
         return imageLayers.stream()
                 .reduce((layer1, layer2) -> countDigit(layer1, '0') < countDigit(layer2, '0') ? layer1 : layer2)
                 .get();
@@ -35,6 +40,33 @@ public class Day8 extends Day2019 {
                 .mapToObj(c -> (char) c)
                 .filter(digit -> digit.equals(digitToFind))
                 .count();
+    }
+
+    public static List<Character> reduceLayers(List<String> layers) {
+        List<Character> reducedLayers = new ArrayList<>(Collections.nCopies(LAYER_SIZE, '2'));
+
+        layers.forEach(layer -> IntStream.range(0, layer.length())
+                .boxed()
+                .forEach(index -> {
+                    if (reducedLayers.get(index)
+                            .equals('2')) {
+                        reducedLayers.set(index, layer.charAt(index));
+                    }
+                }));
+
+        return reducedLayers;
+    }
+
+    public static String convertToPixels(List<Character> reducedLayers) {
+        return reducedLayers.stream()
+                .map(digit -> {
+                    if (digit.equals('0')) {
+                        return " ";
+                    } else {
+                        return "█";
+                    }
+                })
+                .collect(Collectors.joining());
     }
 
     @Override
@@ -51,6 +83,12 @@ public class Day8 extends Day2019 {
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        String imageData = readData();
+        List<String> layers = Day8.splitDataToLayers(imageData, LAYER_SIZE);
+
+        List<Character> reducedLayers = reduceLayers(layers);
+        String pixels = convertToPixels(reducedLayers);
+        return splitDataToLayers(pixels, 25).stream()
+                .reduce(EMPTY, (s, s2) -> s.concat("\n" + s2));
     }
 }

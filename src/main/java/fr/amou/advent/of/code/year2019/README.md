@@ -11,6 +11,7 @@
   - [Day 5](days/Day5.java)
   - [Day 6](days/Day6.java)
   - [Day 7](days/Day7.java)
+  - [Day 8](days/Day8.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -42,4 +43,14 @@ Day 6:
 Day 7:
   Part 1 : 117312
   Part 2 : null
+
+Day 8:
+  Part 1 : 2520
+  Part 2 : 
+█    ████  ██    ██ █   █
+█    █    █  █    █ █   █
+█    ███  █       █  █ █ 
+█    █    █ ██    █   █  
+█    █    █  █ █  █   █  
+████ ████  ███  ██    █  
 ```

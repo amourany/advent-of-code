@@ -4,10 +4,7 @@ import fr.amou.advent.of.code.year2020.Day2020;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +13,7 @@ import java.util.stream.Stream;
 
 public class Day7 extends Day2020 {
 
-    private static final Pattern BAG_COLOR_PATTERN = Pattern.compile("[0-9]?([a-z ]*) bag[s]?");
+    private static final Pattern BAG_COLOR_PATTERN = Pattern.compile("([0-9]?)([a-z ]*) bag[s]?");
 
     public Day7() {
         super(7);
@@ -35,25 +32,26 @@ public class Day7 extends Day2020 {
 
                     Matcher containingBagMatcher = BAG_COLOR_PATTERN.matcher(ruleParts[0]);
                     containingBagMatcher.find();
-                    String containingBag = containingBagMatcher.group(1);
+                    String containingBag = containingBagMatcher.group(2);
 
                     TreeNode containingBagNode = allNodes.stream()
                             .filter(node -> StringUtils.equals(node.objectName, containingBag))
                             .findFirst()
-                            .orElse(new TreeNode(new HashSet<>(), containingBag));
+                            .orElse(new TreeNode(new HashMap<>(), containingBag));
                     allNodes.add(containingBagNode);
 
                     Matcher containedBagMatcher = BAG_COLOR_PATTERN.matcher(ruleParts[1]);
                     while (containedBagMatcher.find()) {
-                        String bag = StringUtils.trim(containedBagMatcher.group(1));
-                        if (!StringUtils.equals(bag, "no other")) {
+                        String bag = StringUtils.trim(containedBagMatcher.group(2));
+                        if (!bag.contains("no other")) {
+                            Integer nbBags = Integer.parseInt(containedBagMatcher.group(1));
 
                             TreeNode containedBag = allNodes.stream()
                                     .filter(node -> StringUtils.equals(node.objectName, bag))
                                     .findFirst()
-                                    .orElse(new TreeNode(new HashSet<>(), bag));
+                                    .orElse(new TreeNode(new HashMap<>(), bag));
 
-                            containedBag.parents.add(containingBagNode);
+                            containingBagNode.children.put(containedBag, nbBags);
                             allNodes.add(containedBag);
                         }
                     }
@@ -63,12 +61,16 @@ public class Day7 extends Day2020 {
     }
 
     private static Stream<TreeNode> findParentBags(Set<TreeNode> nodes, TreeNode currentNode) {
-        if (currentNode.getDepth() == 0) {
+
+        boolean isRoot = nodes.stream()
+                .noneMatch(node -> node.children.containsKey(currentNode));
+
+        if (isRoot) {
             return Stream.of(currentNode);
         }
 
         return nodes.stream()
-                .filter(node -> currentNode.parents.contains(node))
+                .filter(node -> node.children.containsKey(currentNode))
                 .flatMap(node -> {
                     Set<TreeNode> unexploredBags = new HashSet<>(nodes);
                     unexploredBags.remove(currentNode);
@@ -90,6 +92,17 @@ public class Day7 extends Day2020 {
                 .size();
     }
 
+    public static int countTotalBags(List<String> ruleset) {
+        Set<TreeNode> nodes = buildRulesTree(ruleset);
+
+        TreeNode shinyGoldBag = nodes.stream()
+                .filter(node -> node.equals(new TreeNode(null, "shiny gold")))
+                .findFirst()
+                .get();
+
+        return shinyGoldBag.getNbOfInnerBags();
+    }
+
     @Override
     public Object part1() throws IOException {
         List<String> ruleset = readDataAsList();
@@ -98,21 +111,26 @@ public class Day7 extends Day2020 {
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        List<String> ruleset = readDataAsList();
+        return countTotalBags(ruleset);
     }
 
     static class TreeNode {
 
         private final String objectName;
-        private final Set<TreeNode> parents;
+        private final Map<TreeNode, Integer> children;
 
-        public TreeNode(Set<TreeNode> parents, String objectName) {
-            this.parents = parents;
+        public TreeNode(Map<TreeNode, Integer> children, String objectName) {
+            this.children = children;
             this.objectName = objectName;
         }
 
-        public int getDepth() {
-            return parents.isEmpty() ? 0 : ((TreeNode) parents.toArray()[0]).getDepth() + 1;
+        public Integer getNbOfInnerBags() {
+            return children.isEmpty() ? 0 : children.entrySet()
+                    .stream()
+                    .map(entry -> entry.getValue() * (entry.getKey()
+                            .getNbOfInnerBags() + 1))
+                    .reduce(0, Math::addExact);
         }
 
         @Override

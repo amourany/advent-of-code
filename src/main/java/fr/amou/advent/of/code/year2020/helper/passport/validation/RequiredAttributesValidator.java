@@ -1,4 +1,4 @@
-package fr.amou.advent.of.code.year2020.day4.passport.validation;
+package fr.amou.advent.of.code.year2020.helper.passport.validation;
 
 import org.apache.commons.lang3.StringUtils;
 

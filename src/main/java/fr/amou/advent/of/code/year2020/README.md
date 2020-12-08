@@ -4,13 +4,14 @@
 
 ## Days :
 
-  - [Day 1](days/Day1.java)
-  - [Day 2](days/Day2.java)
-  - [Day 3](days/Day3.java)
-  - [Day 4](days/Day4.java)
-  - [Day 5](days/Day5.java)
-  - [Day 6](days/Day6.java)
-  - [Day 7](days/Day7.java)
+  - [Day 1: Report Repair](days/Day1.java)
+  - [Day 2: Password Philosophy](days/Day2.java)
+  - [Day 3: Toboggan Trajectory](days/Day3.java)
+  - [Day 4: Passport Processing](days/Day4.java)
+  - [Day 5: Binary Boarding](days/Day5.java)
+  - [Day 6: Custom Customs](days/Day6.java)
+  - [Day 7: Handy Haversacks](days/Day7.java)
+  - [Day 8: Handheld Halting](days/Day8.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -42,4 +43,8 @@ Day 6:
 Day 7:
   Part 1 : 300
   Part 2 : 8030
+
+Day 8:
+  Part 1 : 1501
+  Part 2 : 509
 ```

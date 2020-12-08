@@ -1,21 +1,21 @@
-package fr.amou.advent.of.code.year2020.day4.passport.validation;
+package fr.amou.advent.of.code.year2020.helper.passport.validation;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BirthYearValidatorTest {
+class ExpirationYearValidatorTest {
 
     @Test
     void it_should_return_true_for_a_valid_attribute() {
         // Given
-        String input = "2002";
+        String input = "2021";
         Passport passport = Passport.builder()
-                .birthYear(input)
+                .expirationYear(input)
                 .build();
 
         // When
-        boolean result = new BirthYearValidator().test(passport);
+        boolean result = new ExpirationYearValidator().test(passport);
 
         // Then
         assertThat(result).isTrue();
@@ -24,13 +24,13 @@ class BirthYearValidatorTest {
     @Test
     void it_should_return_false_for_a_not_valid_attribute() {
         // Given
-        String input = "2003";
+        String input = "2031";
         Passport passport = Passport.builder()
-                .birthYear(input)
+                .expirationYear(input)
                 .build();
 
         // When
-        boolean result = new BirthYearValidator().test(passport);
+        boolean result = new ExpirationYearValidator().test(passport);
 
         // Then
         assertThat(result).isFalse();

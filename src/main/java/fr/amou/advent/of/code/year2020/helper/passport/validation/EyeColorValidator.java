@@ -1,4 +1,4 @@
-package fr.amou.advent.of.code.year2020.day4.passport.validation;
+package fr.amou.advent.of.code.year2020.helper.passport.validation;
 
 import java.util.List;
 import java.util.function.Predicate;

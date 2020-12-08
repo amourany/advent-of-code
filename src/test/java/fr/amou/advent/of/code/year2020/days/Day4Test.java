@@ -1,7 +1,7 @@
 package fr.amou.advent.of.code.year2020.days;
 
-import fr.amou.advent.of.code.year2020.day4.passport.validation.PassportValidator;
-import fr.amou.advent.of.code.year2020.day4.passport.validation.RequiredAttributesValidator;
+import fr.amou.advent.of.code.year2020.helper.passport.validation.PassportValidator;
+import fr.amou.advent.of.code.year2020.helper.passport.validation.RequiredAttributesValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

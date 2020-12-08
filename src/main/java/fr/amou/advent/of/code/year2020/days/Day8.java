@@ -1,14 +1,19 @@
 package fr.amou.advent.of.code.year2020.days;
 
 import fr.amou.advent.of.code.year2020.Day2020;
+import fr.amou.advent.of.code.year2020.helper.computer.Computer;
+import fr.amou.advent.of.code.year2020.helper.computer.Instruction;
+import fr.amou.advent.of.code.year2020.helper.computer.InstructionCode;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static fr.amou.advent.of.code.year2020.days.Day8.ProgramStatus.COMPLETED;
-import static fr.amou.advent.of.code.year2020.days.Day8.ProgramStatus.RUNNING;
+import static fr.amou.advent.of.code.year2020.helper.computer.Computer.ComputerBuilder.aComputer;
+import static fr.amou.advent.of.code.year2020.helper.computer.InstructionCode.*;
+import static fr.amou.advent.of.code.year2020.helper.computer.ProgramStatus.COMPLETED;
 
 public class Day8 extends Day2020 {
 
@@ -20,56 +25,50 @@ public class Day8 extends Day2020 {
         new Day8().printParts();
     }
 
-    public static Integer runProgram(List<String> program) {
-        Integer accumulatorValue = 0;
-        Integer currentPosition = 0;
-        ProgramStatus programStatus = RUNNING;
-        String[] programInstructions = program.toArray(new String[0]);
-        Set<Integer> positionsRun = new HashSet<>();
+    public static List<List<Instruction>> generatePermutations(List<Instruction> program) {
+        return IntStream.range(0, program.size())
+                .filter(index -> program.get(index)
+                        .getCode() != ACC)
+                .mapToObj(index -> {
+                    List<Instruction> newProgramPermutation = new ArrayList<>(program);
+                    newProgramPermutation.set(index, permutation(program.get(index)));
+                    return newProgramPermutation;
+                })
+                .collect(Collectors.toList());
+    }
 
-        while (programStatus == RUNNING) {
-            String[] instruction = programInstructions[currentPosition].split(" ");
+    private static Instruction permutation(Instruction instruction) {
+        InstructionCode codeSwapped = instruction.getCode() == JMP ? NOP : JMP;
+        return new Instruction(codeSwapped, instruction.getParam());
+    }
 
-            if (positionsRun.contains(currentPosition)) {
-                programStatus = COMPLETED;
-            } else {
+    public static Integer debugProgram(List<String> rawProgram) {
+        List<Instruction> program = rawProgram.stream()
+                .map(Instruction::new)
+                .collect(Collectors.toList());
 
-                positionsRun.add(currentPosition);
+        List<List<Instruction>> permutations = generatePermutations(program);
 
-                switch (instruction[0]) {
-                    case "acc":
-                        accumulatorValue += Integer.parseInt(instruction[1]);
-                        currentPosition++;
-                        break;
-                    case "jmp":
-                        currentPosition += Integer.parseInt(instruction[1]);
-                        break;
-                    case "nop":
-                        currentPosition++;
-                        break;
-                    default:
-                        currentPosition++;
-                        break;
-                }
-            }
-        }
-
-        return accumulatorValue;
+        return permutations.stream()
+                .map(permutation -> aComputer().withProgram(permutation)
+                        .start())
+                .filter(computer -> computer.getProgramStatus() == COMPLETED)
+                .map(Computer::getAccumulatorValue)
+                .findFirst()
+                .orElse(0);
     }
 
     @Override
     public Object part1() throws IOException {
         List<String> program = readDataAsList();
-        return runProgram(program);
+        Computer computer = aComputer().withProgramToParse(program)
+                .start();
+        return computer.getAccumulatorValue();
     }
 
     @Override
     public Object part2() throws IOException {
-        return null;
-    }
-
-    enum ProgramStatus {
-        RUNNING,
-        COMPLETED
+        List<String> program = readDataAsList();
+        return debugProgram(program);
     }
 }

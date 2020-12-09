@@ -34,6 +34,10 @@ public abstract class Day {
         return DataReader.readDataAsInteger(year, day);
     }
 
+    public List<Double> readDataAsDouble() throws IOException {
+        return DataReader.readDataAsDouble(year, day);
+    }
+
     public List<String> readDataAsList() throws IOException {
         return DataReader.readDataAsList(year, day);
     }

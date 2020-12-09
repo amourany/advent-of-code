@@ -29,6 +29,13 @@ public class DataReader {
                 .collect(Collectors.toList());
     }
 
+    public static List<Double> readDataAsDouble(int year, int day) throws IOException {
+        String rawData = readData(year, day);
+        return Arrays.stream(rawData.split(DEFAULT_DELIMITER))
+                .map(Double::valueOf)
+                .collect(Collectors.toList());
+    }
+
     public static List<String> readDataAsList(int year, int day) throws IOException {
         return List.of(readData(year, day).split(DEFAULT_DELIMITER));
     }

@@ -12,6 +12,7 @@
   - [Day 6: Custom Customs](days/Day6.java)
   - [Day 7: Handy Haversacks](days/Day7.java)
   - [Day 8: Handheld Halting](days/Day8.java)
+  - [Day 9: Encoding Error](days/Day9.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -47,4 +48,8 @@ Day 7:
 Day 8:
   Part 1 : 1501
   Part 2 : 509
+
+Day 9:
+  Part 1 : 1930745883
+  Part 2 : 268878261
 ```

@@ -13,6 +13,7 @@
   - [Day 7: Handy Haversacks](days/Day7.java)
   - [Day 8: Handheld Halting](days/Day8.java)
   - [Day 9: Encoding Error](days/Day9.java)
+  - [Day 10: Adapter Array](days/Day10.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -52,4 +53,8 @@ Day 8:
 Day 9:
   Part 1 : 1930745883
   Part 2 : 268878261
+
+Day 10:
+  Part 1 : 2450
+  Part 2 : 32396521357312
 ```

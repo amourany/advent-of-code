@@ -4,16 +4,17 @@
 
 ## Days :
 
-  - [Day 1: Report Repair](days/Day1.java)
-  - [Day 2: Password Philosophy](days/Day2.java)
-  - [Day 3: Toboggan Trajectory](days/Day3.java)
-  - [Day 4: Passport Processing](days/Day4.java)
-  - [Day 5: Binary Boarding](days/Day5.java)
-  - [Day 6: Custom Customs](days/Day6.java)
-  - [Day 7: Handy Haversacks](days/Day7.java)
-  - [Day 8: Handheld Halting](days/Day8.java)
-  - [Day 9: Encoding Error](days/Day9.java)
-  - [Day 10: Adapter Array](days/Day10.java)
+  - [Day 1: Report Repair](days/day1/Day1.java)
+  - [Day 2: Password Philosophy](days/day2/Day2.java)
+  - [Day 3: Toboggan Trajectory](days/day3/Day3.java)
+  - [Day 4: Passport Processing](days/day4/Day4.java)
+  - [Day 5: Binary Boarding](days/day5/Day5.java)
+  - [Day 6: Custom Customs](days/day6/Day6.java)
+  - [Day 7: Handy Haversacks](days/day7/Day7.java)
+  - [Day 8: Handheld Halting](days/day8/Day8.java)
+  - [Day 9: Encoding Error](days/day9/Day9.java)
+  - [Day 10: Adapter Array](days/day10/Day10.java)
+  - [Day 11: Seating System](days/day11/Day11.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 

@@ -10,12 +10,13 @@ import java.util.stream.IntStream;
 @Log4j2
 public class AdventOfCode {
     public static void main(String[] args) {
-        IntStream.rangeClosed(1, 10)
+        IntStream.rangeClosed(1, 11)
                 .boxed()
                 .forEach(day -> {
                     log.info("Day {}:", day);
                     try {
-                        Day instance = (Day) Class.forName("fr.amou.advent.of.code.year2020.days.Day" + day)
+                        Day instance = (Day) Class.forName(
+                                "fr.amou.advent.of.code.year2020.days.day" + day + ".Day" + day)
                                 .getDeclaredConstructor()
                                 .newInstance();
                         instance.printParts();

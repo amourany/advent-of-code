@@ -42,28 +42,29 @@ public class Day11 extends Day2020 {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
-    private static Map<String, Seat> updateSeats(Map<String, Seat> seatsOccupation) {
+    private static Map<String, Seat> updateSeats(Map<String, Seat> seatsOccupation,
+                                                 Function<Seat, BiFunction<Entry<String, Seat>, Map<String, Seat>, Entry<String, Seat>>> seatRulesProvider) {
         return seatsOccupation.entrySet()
                 .stream()
-                .map(seatEntry -> changeSeatStatus(seatEntry, seatsOccupation))
+                .map(seatEntry -> changeSeatStatus(seatEntry, seatsOccupation, seatRulesProvider))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
-    private static Entry<String, Seat> changeSeatStatus(Entry<String, Seat> seat, Map<String, Seat> seatsOccupation) {
-        return seat.getValue()
-                .getSeatStatus()
-                .getNextStatus()
+    private static Entry<String, Seat> changeSeatStatus(Entry<String, Seat> seat, Map<String, Seat> seatsOccupation,
+                                                        Function<Seat, BiFunction<Entry<String, Seat>, Map<String, Seat>, Entry<String, Seat>>> seatRulesProvider) {
+        return seatRulesProvider.apply(seat.getValue())
                 .apply(seat, seatsOccupation);
     }
 
-    public static Map<String, Seat> simulatePeopleArriving(List<String> seatsLayout) {
+    public static Map<String, Seat> simulatePeopleArriving(List<String> seatsLayout,
+                                                           Function<Seat, BiFunction<Entry<String, Seat>, Map<String, Seat>, Entry<String, Seat>>> seatRulesProvider) {
         Map<String, Seat> seatsOccupation = convertSeatsLayout(seatsLayout);
 
         boolean isStabilized = false;
         Map<String, Seat> newOccupation = new HashMap<>();
 
         while (!isStabilized) {
-            newOccupation = updateSeats(seatsOccupation);
+            newOccupation = updateSeats(seatsOccupation, seatRulesProvider);
 
             isStabilized = seatsOccupation.equals(newOccupation);
 
@@ -78,7 +79,8 @@ public class Day11 extends Day2020 {
     @Override
     public Object part1() throws IOException {
         List<String> seatsLayout = readDataAsList();
-        Map<String, Seat> finalSeatsOccupation = Day11.simulatePeopleArriving(seatsLayout);
+        Function<Seat, BiFunction<Entry<String, Seat>, Map<String, Seat>, Entry<String, Seat>>> seatRulesProvider = NextSeatStatusProvider::part1Provider;
+        Map<String, Seat> finalSeatsOccupation = Day11.simulatePeopleArriving(seatsLayout, seatRulesProvider);
         return finalSeatsOccupation.values()
                 .stream()
                 .filter(seat -> seat.getSeatStatus() == OCCUPIED)
@@ -87,6 +89,12 @@ public class Day11 extends Day2020 {
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        List<String> seatsLayout = readDataAsList();
+        Function<Seat, BiFunction<Entry<String, Seat>, Map<String, Seat>, Entry<String, Seat>>> seatRulesProvider = NextSeatStatusProvider::part2Provider;
+        Map<String, Seat> finalSeatsOccupation = Day11.simulatePeopleArriving(seatsLayout, seatRulesProvider);
+        return finalSeatsOccupation.values()
+                .stream()
+                .filter(seat -> seat.getSeatStatus() == OCCUPIED)
+                .count();
     }
 }

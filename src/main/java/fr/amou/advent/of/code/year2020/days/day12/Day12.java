@@ -24,11 +24,11 @@ public class Day12 extends Day2020 {
                 .get(N));
     }
 
-    public static Ship followEvasivePath(List<String> instructions) {
+    public static Ship followEvasivePath(List<String> instructions, InstructionRuleSet ruleSet) {
         Ship ship = new Ship();
         instructions.stream()
                 .map(Day12::parseInstruction)
-                .forEach(ship::moveTo);
+                .forEach(instruction -> ruleSet.resolveRule(ship, instruction));
         return ship;
     }
 
@@ -39,12 +39,14 @@ public class Day12 extends Day2020 {
     @Override
     public Object part1() throws IOException {
         List<String> instructions = readDataAsList();
-        Ship ship = followEvasivePath(instructions);
+        Ship ship = followEvasivePath(instructions, new Part1RuleSet());
         return computeManhattanDistance(ship);
     }
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        List<String> instructions = readDataAsList();
+        Ship ship = followEvasivePath(instructions, new Part2RuleSet());
+        return computeManhattanDistance(ship);
     }
 }

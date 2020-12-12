@@ -15,6 +15,7 @@
   - [Day 9: Encoding Error](days/day9/Day9.java)
   - [Day 10: Adapter Array](days/day10/Day10.java)
   - [Day 11: Seating System](days/day11/Day11.java)
+  - [Day 12: Rain Risk](days/day12/Day12.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -62,4 +63,8 @@ Day 10:
 Day 11:
   Part 1 : 2261
   Part 2 : 2039
+
+Day 12:
+  Part 1 : 2879
+  Part 2 : 178986
 ```

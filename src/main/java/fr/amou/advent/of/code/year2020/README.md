@@ -16,6 +16,7 @@
   - [Day 10: Adapter Array](days/day10/Day10.java)
   - [Day 11: Seating System](days/day11/Day11.java)
   - [Day 12: Rain Risk](days/day12/Day12.java)
+  - [Day 13: Shuttle Search](days/day13/Day13.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -67,4 +68,8 @@ Day 11:
 Day 12:
   Part 1 : 2879
   Part 2 : 178986
+
+Day 13:
+  Part 1 : 1835
+  Part 2 : 247086664214628
 ```

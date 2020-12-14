@@ -17,7 +17,6 @@ public class Mask {
     public Mask(String maskDefinition) {
         String[] maskArray = maskDefinition.split("");
         mask = IntStream.range(0, maskArray.length)
-                .filter(index -> !maskArray[index].equals("X"))
                 .mapToObj(index -> entry(index, maskArray[index]))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }

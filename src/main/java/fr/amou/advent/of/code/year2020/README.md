@@ -18,6 +18,7 @@
   - [Day 12: Rain Risk](days/day12/Day12.java)
   - [Day 13: Shuttle Search](days/day13/Day13.java)
   - [Day 14: Docking Data](days/day14/Day14.java)
+  - [Day 15: Rambunctious Recitation](days/day15/Day15.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -77,4 +78,8 @@ Day 13:
 Day 14:
   Part 1 : 13865835758282
   Part 2 : 4195339838136
+
+Day 15:
+  Part 1 : 536
+  Part 2 : 24065124
 ```

@@ -12,9 +12,21 @@ class Day17Test {
         String initialState = ".#.\n..#\n###";
 
         // When
-        long actives = Day17.simulateAndCountActives(initialState, 6);
+        long actives = Day17.simulateAndCountActives(initialState, 6, 3);
 
         // Then
         assertThat(actives).isEqualTo(112);
+    }
+
+    @Test
+    void part2_example1() {
+        // Given
+        String initialState = ".#.\n..#\n###";
+
+        // When
+        long actives = Day17.simulateAndCountActives(initialState, 6, 4);
+
+        // Then
+        assertThat(actives).isEqualTo(848);
     }
 }

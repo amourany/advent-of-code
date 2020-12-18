@@ -1,6 +1,7 @@
 package fr.amou.advent.of.code.year2020.days.day17;
 
-import org.apache.commons.lang3.ArrayUtils;
+import fr.amou.advent.of.code.year2020.days.day17.cube.Cube;
+import fr.amou.advent.of.code.year2020.days.day17.cube.CubeStatus;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -8,7 +9,8 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import static fr.amou.advent.of.code.common.DataReader.DEFAULT_DELIMITER;
-import static fr.amou.advent.of.code.year2020.days.day17.CubeStatus.*;
+import static fr.amou.advent.of.code.year2020.days.day17.cube.Cube.CubeBuilder.aCube;
+import static fr.amou.advent.of.code.year2020.days.day17.cube.CubeStatus.*;
 import static java.util.Arrays.asList;
 import static java.util.Map.entry;
 import static java.util.stream.Collectors.*;
@@ -16,41 +18,65 @@ import static java.util.stream.IntStream.range;
 
 public class Universe {
 
-    private Map<CubeCoordinates, CubeStatus> knownUniverse;
+    private final Map<Cube, List<Cube>> knownNeighbors = new HashMap<>();
+    private Map<Cube, CubeStatus> knownUniverse;
 
-    public Universe(String initialState) {
+    public Universe(String initialState, Integer maxDimensions) {
         List<String> cubeXStates = asList(initialState.split(DEFAULT_DELIMITER));
-        knownUniverse = range(0, cubeXStates.size()).mapToObj(xIndex -> {
-            List<String> cubeYStates = asList(cubeXStates.get(xIndex)
-                    .split(""));
-            return range(0, cubeYStates.size()).mapToObj(yIndex -> entry(new CubeCoordinates(xIndex, yIndex, 0),
-                    getStatusFromRepresentation(cubeYStates.get(yIndex))));
-        })
+
+        knownUniverse = range(0, cubeXStates.size())
+                .mapToObj(xIndex -> {
+                    List<String> cubeYStates = asList(cubeXStates
+                            .get(xIndex)
+                            .split(""));
+
+                    return range(0, cubeYStates.size()).mapToObj(
+                            yIndex -> entry(buildCube(maxDimensions, xIndex, yIndex),
+                                    getStatusFromRepresentation(cubeYStates.get(yIndex))));
+                })
                 .flatMap(Function.identity())
                 .collect(toMap(Entry::getKey, Entry::getValue));
     }
 
-    public List<CubeCoordinates> findNeighborsOfCube(CubeCoordinates cube) {
-        return findNeighbors(cube.getX(), cube.getY(), cube.getZ()).stream()
-                .map(neighborCoordinate -> new CubeCoordinates(neighborCoordinate[0], neighborCoordinate[1],
-                        neighborCoordinate[2]))
-                .filter(neighbor -> !neighbor.equals(cube))
-                .collect(toList());
+    private Cube buildCube(Integer dimensions, Integer... coordinates) {
+        return aCube()
+                .withNDimensions(dimensions)
+                .withCoordinates(coordinates)
+                .build();
     }
 
-    private List<Integer[]> findNeighbors(Integer... origin) {
-        if (origin.length == 1) {
-            return IntStream.rangeClosed(-1, 1)
-                    .mapToObj(offset -> new Integer[]{origin[0] + offset})
+    public List<Cube> findNeighborsOfCube(Cube cube) {
+        List<Cube> neighbors = findNeighbors(cube.getCoordinates())
+                .stream()
+                .map(Cube::new)
+                .filter(neighbor -> !neighbor.equals(cube))
+                .collect(toList());
+        knownNeighbors.put(cube, neighbors);
+        return neighbors;
+    }
+
+    private List<List<Integer>> findNeighbors(List<Integer> originCoordinates) {
+        if (originCoordinates.size() == 1) {
+            return IntStream
+                    .rangeClosed(-1, 1)
+                    .mapToObj(offset -> List.of(originCoordinates.get(0) + offset))
                     .collect(toList());
         }
 
-        return IntStream.rangeClosed(-1, 1)
+        return IntStream
+                .rangeClosed(-1, 1)
                 .mapToObj(offset -> {
-                    List<Integer[]> neighbors = findNeighbors(Arrays.stream(origin, 1, origin.length)
-                            .toArray(Integer[]::new));
-                    return neighbors.stream()
-                            .map(neighbor -> ArrayUtils.addAll(new Integer[]{origin[0] + offset}, neighbor))
+                    List<List<Integer>> neighbors = findNeighbors(
+                            originCoordinates.subList(1, originCoordinates.size()));
+
+                    return neighbors
+                            .stream()
+                            .map(neighbor -> {
+                                List<Integer> mergedCoordinates = new ArrayList<>();
+                                mergedCoordinates.add(originCoordinates.get(0) + offset);
+                                mergedCoordinates.addAll(neighbor);
+                                return mergedCoordinates;
+                            })
                             .collect(toList());
                 })
                 .flatMap(List::stream)
@@ -58,16 +84,21 @@ public class Universe {
     }
 
     public void expand() {
-        Set<CubeCoordinates> knownCoordinates = exploreKnownCoordinates();
+        Set<Cube> knownCoordinates = exploreKnownCoordinates();
 
-        knownUniverse = knownCoordinates.stream()
-                .map(coordinates -> Optional.ofNullable(knownUniverse.get(coordinates))
+        knownUniverse = knownCoordinates
+                .stream()
+                .map(coordinates -> Optional
+                        .ofNullable(knownUniverse.get(coordinates))
                         .map(status -> entry(coordinates, status))
                         .orElse(entry(coordinates, INACTIVE)))
                 .map(cubeEntry -> {
-                    List<CubeCoordinates> neighbors = findNeighborsOfCube(cubeEntry.getKey());
+                    List<Cube> neighbors = Optional
+                            .ofNullable(knownNeighbors.get(cubeEntry.getKey()))
+                            .orElse(findNeighborsOfCube(cubeEntry.getKey()));
 
-                    long activeNeighbors = neighbors.stream()
+                    long activeNeighbors = neighbors
+                            .stream()
                             .filter(knownUniverse::containsKey)
                             .map(knownUniverse::get)
                             .filter(status -> status == ACTIVE)
@@ -86,8 +117,9 @@ public class Universe {
                 .collect(toMap(Entry::getKey, Entry::getValue));
     }
 
-    private Set<CubeCoordinates> exploreKnownCoordinates() {
-        return knownUniverse.keySet()
+    private Set<Cube> exploreKnownCoordinates() {
+        return knownUniverse
+                .keySet()
                 .stream()
                 .map(this::findNeighborsOfCube)
                 .flatMap(List::stream)
@@ -95,7 +127,8 @@ public class Universe {
     }
 
     public long countActiveCubes() {
-        return knownUniverse.values()
+        return knownUniverse
+                .values()
                 .stream()
                 .filter(status -> status == ACTIVE)
                 .count();

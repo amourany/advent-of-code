@@ -19,6 +19,8 @@
   - [Day 13: Shuttle Search](days/day13/Day13.java)
   - [Day 14: Docking Data](days/day14/Day14.java)
   - [Day 15: Rambunctious Recitation](days/day15/Day15.java)
+  - [Day 16: Ticket Translation](days/day16/Day16.java)
+  - [Day 17: Conway Cubes](days/day17/Day17.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -82,4 +84,12 @@ Day 14:
 Day 15:
   Part 1 : 536
   Part 2 : 24065124
+
+Day 16:
+  Part 1 : 25059
+  Part 2 : 3253972369789
+
+Day 17:
+  Part 1 : 263
+  Part 2 : 1680
 ```

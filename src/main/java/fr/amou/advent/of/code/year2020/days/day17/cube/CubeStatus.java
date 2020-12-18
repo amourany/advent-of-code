@@ -1,4 +1,4 @@
-package fr.amou.advent.of.code.year2020.days.day17;
+package fr.amou.advent.of.code.year2020.days.day17.cube;
 
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;

@@ -14,8 +14,8 @@ public class Day17 extends Day2020 {
         new Day17().printParts();
     }
 
-    public static long simulateAndCountActives(String initialState, int roundNumbers) {
-        Universe knownUniverse = new Universe(initialState);
+    public static long simulateAndCountActives(String initialState, int roundNumbers, Integer dimensions) {
+        Universe knownUniverse = new Universe(initialState, dimensions);
         Integer currentRound = 0;
 
         while (currentRound < roundNumbers) {
@@ -29,11 +29,12 @@ public class Day17 extends Day2020 {
     @Override
     public Object part1() throws IOException {
         String initialState = readData();
-        return simulateAndCountActives(initialState, 6);
+        return simulateAndCountActives(initialState, 6, 3);
     }
 
     @Override
     public Object part2() throws IOException {
-        return null;
+        String initialState = readData();
+        return simulateAndCountActives(initialState, 6, 4);
     }
 }

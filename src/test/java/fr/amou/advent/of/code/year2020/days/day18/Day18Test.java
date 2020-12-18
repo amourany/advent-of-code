@@ -12,7 +12,7 @@ class Day18Test {
         String expression = "1 + 2 * 3 + 4 * 5 + 6";
 
         // When
-        Double result = Day18.parseExpression(expression);
+        Double result = Day18.parseExpressionPart1(expression);
 
         // Then
         assertThat(result).isEqualTo(71);
@@ -24,7 +24,7 @@ class Day18Test {
         String expression = "1 + (2 * 3) + (4 * (5 + 6))";
 
         // When
-        Double result = Day18.parseExpression(expression);
+        Double result = Day18.parseExpressionPart1(expression);
 
         // Then
         assertThat(result).isEqualTo(51);
@@ -36,7 +36,7 @@ class Day18Test {
         String expression = "2 * 3 + (4 * 5)";
 
         // When
-        Double result = Day18.parseExpression(expression);
+        Double result = Day18.parseExpressionPart1(expression);
 
         // Then
         assertThat(result).isEqualTo(26);
@@ -48,7 +48,7 @@ class Day18Test {
         String expression = "5 + (8 * 3 + 9 + 3 * 4 * 3)";
 
         // When
-        Double result = Day18.parseExpression(expression);
+        Double result = Day18.parseExpressionPart1(expression);
 
         // Then
         assertThat(result).isEqualTo(437);
@@ -60,7 +60,7 @@ class Day18Test {
         String expression = "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))";
 
         // When
-        Double result = Day18.parseExpression(expression);
+        Double result = Day18.parseExpressionPart1(expression);
 
         // Then
         assertThat(result).isEqualTo(12240);
@@ -72,9 +72,81 @@ class Day18Test {
         String expression = "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2";
 
         // When
-        Double result = Day18.parseExpression(expression);
+        Double result = Day18.parseExpressionPart1(expression);
 
         // Then
         assertThat(result).isEqualTo(13632);
+    }
+
+    @Test
+    void part2_example1() {
+        // Given
+        String expression = "1 + 2 * 3 + 4 * 5 + 6";
+
+        // When
+        Double result = Day18.parseExpressionPart2(expression);
+
+        // Then
+        assertThat(result).isEqualTo(231);
+    }
+
+    @Test
+    void part2_example2() {
+        // Given
+        String expression = "1 + (2 * 3) + (4 * (5 + 6))";
+
+        // When
+        Double result = Day18.parseExpressionPart2(expression);
+
+        // Then
+        assertThat(result).isEqualTo(51);
+    }
+
+    @Test
+    void part2_example3() {
+        // Given
+        String expression = "2 * 3 + (4 * 5)";
+
+        // When
+        Double result = Day18.parseExpressionPart2(expression);
+
+        // Then
+        assertThat(result).isEqualTo(46);
+    }
+
+    @Test
+    void part2_example4() {
+        // Given
+        String expression = "5 + (8 * 3 + 9 + 3 * 4 * 3)";
+
+        // When
+        Double result = Day18.parseExpressionPart2(expression);
+
+        // Then
+        assertThat(result).isEqualTo(1445);
+    }
+
+    @Test
+    void part2_example5() {
+        // Given
+        String expression = "5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))";
+
+        // When
+        Double result = Day18.parseExpressionPart2(expression);
+
+        // Then
+        assertThat(result).isEqualTo(669060);
+    }
+
+    @Test
+    void part2_example6() {
+        // Given
+        String expression = "((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2";
+
+        // When
+        Double result = Day18.parseExpressionPart2(expression);
+
+        // Then
+        assertThat(result).isEqualTo(23340);
     }
 }

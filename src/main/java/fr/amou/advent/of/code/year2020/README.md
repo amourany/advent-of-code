@@ -21,6 +21,7 @@
   - [Day 15: Rambunctious Recitation](days/day15/Day15.java)
   - [Day 16: Ticket Translation](days/day16/Day16.java)
   - [Day 17: Conway Cubes](days/day17/Day17.java)
+  - [Day 18: Operation Order](days/day18/Day18.java)
 
 ## Output of running [AdventOfCode.java](AdventOfCode.java):
 
@@ -92,4 +93,8 @@ Day 16:
 Day 17:
   Part 1 : 263
   Part 2 : 1680
+
+Day 18:
+  Part 1 : 1408133923393
+  Part 2 : 314455761823725
 ```

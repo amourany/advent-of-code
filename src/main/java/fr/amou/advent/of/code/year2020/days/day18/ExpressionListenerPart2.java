@@ -1,6 +1,7 @@
 package fr.amou.advent.of.code.year2020.days.day18;
 
-import fr.amou.advent.of.code.year2020.days.day18.Day18Part1GrammarParser.*;
+import fr.amou.advent.of.code.year2020.days.day18.Day18Part2GrammarParser.ExprContext;
+import fr.amou.advent.of.code.year2020.days.day18.Day18Part2GrammarParser.ExpressionContext;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -10,7 +11,7 @@ import java.util.Deque;
 
 import static fr.amou.advent.of.code.year2020.days.day18.Day18Part1GrammarParser.*;
 
-public class ExpressionListener extends Day18Part1GrammarBaseListener {
+public class ExpressionListenerPart2 extends Day18Part2GrammarBaseListener {
 
     private final Deque<Double> argStack = new ArrayDeque<>();
     private final Deque<Integer> opStack = new ArrayDeque<>();

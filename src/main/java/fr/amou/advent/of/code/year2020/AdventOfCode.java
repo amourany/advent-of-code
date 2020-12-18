@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public class AdventOfCode {
     public static void main(String[] args) {
         IntStream
-                .rangeClosed(1, 17)
+                .rangeClosed(1, 18)
                 .boxed()
                 .forEach(day -> {
                     log.info("Day {}:", day);
